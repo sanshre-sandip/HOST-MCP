@@ -1,8 +1,27 @@
-from sqlalchemy.orm import sessionmaker
+import os
+from dotenv import load_dotenv
+
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-#database configuration
-db = "postgresql://postgres:sandy1234@localhost:5432/test1"
+# load .env
+load_dotenv()
 
-engine = create_engine(db)
-session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# get database URL
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set in .env")
+
+# create engine
+engine = create_engine(DATABASE_URL)
+
+# session factory
+session = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
+# ORM base
+Base = declarative_base()
