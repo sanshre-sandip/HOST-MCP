@@ -1,5 +1,10 @@
 from fastmcp import FastMCP
+from database import session, engine
+import database_models
 
+database_models.Base.metadata.create_all(bind=engine)
+
+db = session()
 mcp = FastMCP("My Server")
 
 @mcp.tool
