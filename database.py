@@ -14,7 +14,13 @@ if not DATABASE_URL:
     raise ValueError("DATABASE_URL is not set in .env")
 
 # create engine
-engine = create_engine(DATABASE_URL)
+
+
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,
+    pool_recycle=300
+)
 
 # session factory
 session = sessionmaker(
